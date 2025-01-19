@@ -1,5 +1,7 @@
 ## Assignment: Create a Simple "Number Guessing Game" 
 
+## Due Date: 31/01/2025
+
 ## The Objective of the assignment:
 
 Create a simple game where the user is asked to guess a pre-defined number. The program will give feedback on whether the guess is too high or too low until the user guesses the correct number.
