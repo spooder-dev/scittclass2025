@@ -1,5 +1,5 @@
-#Develop your own game
-age = int(input("Enter your group name: "))
-if age <=50:
-    print(" I am eligible")
+"""  Please make sure you read the entire README.md file to follow the instructions """
+
+print("Welcome to the Number Guessing Game!")
+pass
     
