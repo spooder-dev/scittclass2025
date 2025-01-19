@@ -31,11 +31,11 @@ Game Overview:
 
 ## Key Concepts 
 
-Control flow: Using if, elif, and else to compare the user's guess to the secret number.
+* Control flow: Using if, elif, and else to compare the user's guess to the secret number.
 
-Loops: Using a while loop to repeatedly ask the user for a guess until the correct one is entered.
+* Loops: Using a while loop to repeatedly ask the user for a guess until the correct one is entered.
 
-User input: Making sure the input is valid (checking if the input is a number using .isdigit()).
+* User input: Making sure the input is valid (checking if the input is a number using .isdigit()).
 
 ## Evaluation Criteria
 
