@@ -1,4 +1,4 @@
-## Assignment: Create a Simple "Number Guessing Game" 
+## Graded Assignment 01: Create a Simple "Number Guessing Game" 
 
 ## Due Date: 31/01/2025
 
