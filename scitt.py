@@ -145,6 +145,7 @@ def play_game(difficulty):
             
             print(f"Congratulations! You guessed the number. Your score: {score} and time taken is: {guess_time}")
             return
+            
          else:
           print("Wrong guess! Try again")
           trials += 1
@@ -180,7 +181,9 @@ def play_game(difficulty):
         print("Thanks for playing! See you next time.")
 
 def main(): #the main fucntion that runs when the game starts
-    print("Welcome to the Number Guessing Game!")
+    print("WE ARE THE TITANS AND WE")
+    print('------------------------------------')
+    print("Welcome you to the Number Guessing Game! Are you ready?")
 
     game_running=True
     difficulty= None #Stores the results after the 'difficulty_selection' function is called and run
@@ -189,9 +192,10 @@ def main(): #the main fucntion that runs when the game starts
     while game_running:
         option= ('Register', 'Login', 'Exit')
         for index, x in enumerate(option, 1):
+            
             print(f"{index} . {x}")
 
-        choice= int(input("Choose and input: "))
+        choice= int(input("Choose an input: "))
 
         if choice == 1:
             register_player()
