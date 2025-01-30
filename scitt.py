@@ -31,6 +31,7 @@ def register_player(): #function to register player
 
     if player in player_data: #checks if player name is in the dictionary
         print("Account already exists. Please log in.")
+        login_player()
         return
     
     while True:
@@ -57,6 +58,7 @@ def login_player():
 
     if player not in player_data:
         print("Username doesn't exist. Please create an account.")
+        register_player()
         return
     
     attempts=3
@@ -64,14 +66,16 @@ def login_player():
         password=input("Enter your password: ")
         if password == player_data[player]["password"]:
             print("Welcome"+ " " +player+ " " +"to the Number Guessing Game!")
-            return
+            return True #Successful login, continues to selecting difficulty and playing
 
         attempts -=1
         print(f"Incorrect password! You have {attempts} left.")
 
         if attempts==0:
             print("Too many failed attempts. You can reset your password.")
-        reset_password(player)#call this function to reset password
+            reset_password(player)#call this function to reset password
+            return False #Login has failed. Only proceeds to the rest of the game if its true
+        
         
 def reset_password(player): #function to reset password
     while True:
@@ -98,6 +102,82 @@ def difficulty_selection(): #function used to select the difficulty mode
       return my_list[choice - 1]  # Return the selected difficulty
      else:
       print("Invalid choice. Please select a valid difficulty level.")
+
+def play_game(difficulty):
+    score=0 #setting the initial score for the game
+    trials=0 #attempts for the game
+    
+    if difficulty == 'Easy':
+        max_trials= float('inf') #sets infinite attempts
+    elif difficulty == 'Medium':
+        max_trials= 5
+    else:
+        max_trials= 3
+        time_limit= 30 
+
+    secret_number = random.randint(1, 10) #generating random number
+
+    start_time= time.time() #Tracking time taken in easy and medium modes
+
+    if difficulty == "Hard":
+        end_time = start_time + time_limit #tracks the TT in the tracked hard mode
+
+    if difficulty == "Hard" and time.time() > end_time:
+     print("Time's up! Game Over.")       #checks if time ran out in hard mode
+
+    while trials < max_trials: #condition to be met, loop exits when condition is not met
+         if difficulty == "Hard" and time.time() > end_time:
+            print("Time's up! Game Over.")
+            return
+         try:
+          guess = int(input("Enter your guess: "))
+         except ValueError:
+          print("Invalid input! Please enter a valid number.")
+          continue
+         
+         guess_time = time.time()  # Track how fast user answers
+    
+         if guess == secret_number:
+            elapsed_time = time.time() - guess_time  # Time taken for this answer
+            score += 10
+            if elapsed_time < 5:  # Bonus for quick answers
+             score += 5
+            
+            print(f"Congratulations! You guessed the number. Your score: {score} and time taken is: {guess_time}")
+            return
+         else:
+          print("Wrong guess! Try again")
+          trials += 1
+        
+        # Provide hint in Easy Mode after every wrong guess
+         if difficulty == "Easy":
+                print(f"Hint: The number is {'greater' if secret_number > guess else 'less'} than {guess}.")
+          
+       # Medium Mode with Hint after the third guess
+         if difficulty == "Medium" and trials >= 3:
+          print(f"Hint: The number is {'greater' if secret_number > guess else 'less'} than {guess}.")
+
+         # Show remaining attempts for Medium and Hard modes
+         if difficulty in ["Medium", "Hard"]:
+            print(f"You have {max_trials - trials} attempts left.")
+            
+         if trials == max_trials:
+                print("Game Over! You've used all attempts.")
+    
+    # Display total time for Easy & Medium
+    if difficulty in ["Easy", "Medium"]:
+        total_time = time.time() - start_time
+        print(f"Total time taken: {total_time:.2f} seconds")
+
+    print(f"Final Score: {score}")
+
+     # Ask if the user wants to continue or exit
+    continue_game = input("Do you want to play again? (Y/N): ")
+    if continue_game.upper() == "Y":
+        difficulty = difficulty_selection()  # Let them select difficulty again
+        play_game(difficulty)  # Restart the game with new difficulty
+    else:
+        print("Thanks for playing! See you next time.")
 
 def main(): #the main fucntion that runs when the game starts
     print("Welcome to the Number Guessing Game!")
@@ -131,65 +211,6 @@ def main(): #the main fucntion that runs when the game starts
         else:
             print("You've entered an invalid choice! Please try again")
             continue
-
-
-def play_game(difficulty):
-    score=0 #setting the initial score for the game
-    guess= input()
-
-    if difficulty == 'Easy':
-        max_trials= float('infinite') #sets infinite attempts
-    elif difficulty == 'Medium':
-        max_trials= 5
-    else:
-        max_trials= 3
-        time_limit= 30 
-
-    trials=0
-    start_time= time.time() #Tracking time taken in easy and medium modes
-
-    if difficulty == "Hard":
-        end_time = start_time + time_limit #tracks the TT in the tracked hard mode
-
-        while trials < max_trials:
-         secret_number = random.randint(1, 10) #generating random number
-
-         print("Guess the number (1-10): ")
-         guess_time = time.time()  # Track how fast user answers
-         break
-
-    if difficulty == "Hard" and time.time() > end_time:
-     print("Time's up! Game Over.")       #checks if time ran out in hard mode
-    
-    if guess == secret_number:
-            elapsed_time = time.time() - guess_time  # Time taken for this answer
-            score += 10
-    else:
-        print("Wrong guess!")
-        score -= 10
-        attempts += 1
-
-
-    if elapsed_time < 5:  # Bonus for quick answers
-        score += 5
-            
-    print("Congratulations! You guessed the number.")
-    print(f"Your score is: {score} and time taken is: {guess_time}")
-            
-            
-
-            # Medium Mode Hint
-    if difficulty == "Medium" and trials >= 3:
-                print(f"Hint: The number is {'greater' if secret_number > guess else 'less'} than {guess}.")
-            
-    if trials == max_trials:
-                print("Game Over! You've used all attempts.")
-    
-    # Display total time for Easy & Medium
-    if difficulty in ["Easy", "Medium"]:
-        total_time = time.time() - start_time
-        print(f"Total time taken: {total_time:.2f} seconds")
-
-    print(f"Final Score: {score}")
+main()
 
     
